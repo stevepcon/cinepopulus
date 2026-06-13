@@ -32,6 +32,8 @@ export const tmdbFetch = createServerFn({ method: "GET" })
       const text = await res.text().catch(() => "");
       throw new Error(`TMDB ${res.status}: ${text.slice(0, 200)}`);
     }
-    const json = (await res.json()) as Record<string, unknown>;
-    return json;
+    // TMDB returns arbitrary JSON; callers cast to typed shapes via tmdb.ts.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const json = (await res.json()) as any;
+    return json as { [key: string]: unknown } & { results?: unknown[] };
   });
