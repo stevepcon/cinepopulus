@@ -14,10 +14,22 @@ const get = <T>(path: string, params?: Record<string, string | number | boolean>
 // ---------------------------------------------------------------------------
 
 // TMDB keyword IDs we never want to surface.
-// erotic movie / softcore / rape / sexploitation / sexual violence / sexual abuse
-// / erotica / nudity (as primary theme) / sex tape / pornography
+// Adult / sexual / exploitation content:
+// sex (2626), softcore (10115), erotic movie (190370), erotica (13059),
+// pornography (6149), sex scene (170362), sexual content (287501),
+// nudity (1228), female nudity (11322), male nudity (264386),
+// full frontal nudity (234213), explicit sex (4344),
+// rape (9748), sexual violence (165270), sexual abuse (263591),
+// sexploitation (233211), sex tape (161645), prostitute (1326),
+// strip club (10773), striptease (10774), brothel (12377), orgy (15093),
+// incest (15136), pinku eiga (10054), nunsploitation (170587),
+// women in prison (13141), bdsm (208579), kink (245840)
 const EXCLUDED_KEYWORDS = [
-  190370, 10115, 9748, 233211, 165270, 263591, 13059, 2626, 161645, 6149,
+  2626, 10115, 190370, 13059, 6149, 170362, 287501,
+  1228, 11322, 264386, 234213, 4344,
+  9748, 165270, 263591, 233211, 161645, 1326,
+  10773, 10774, 12377, 15093, 15136,
+  10054, 170587, 13141, 208579, 245840,
 ].join("|");
 
 // Distributors / labels that anchor the Criterion-Channel sensibility:
@@ -43,12 +55,14 @@ const SAFE_DEFAULTS = {
 // (trending, recommendations, etc.). Drops obvious low-quality / sleaze items.
 export function curateMovies<T extends Movie>(movies: T[] | undefined): T[] {
   if (!movies) return [];
+  const badTitle = /\b(xxx|porn|porno|pornography|erotic|erotica|eroticism|softcore|hardcore|sexy|sensual|seduction|seductress|nude|nudity|naked|nympho|nymph|orgy|orgies|swinger|swingers|kinky|bdsm|bondage|fetish|lust|lusty|lascivious|raunchy|sleaze|sleazy|sexploitation|pinku|stripper|striptease|hooker|hookers|brothel|harem|playboy|playmate|centerfold|camgirl|cam girl|onlyfans|threesome|foursome|gangbang|incest|cuckold|milf|nymphomaniac|cabaret girls|emmanuelle|caligula)\b/i;
+  const badOverview = /\b(softcore|hardcore porn|pornograph|erotic|erotica|nymphomaniac|orgy|orgies|sexploitation|striptease|brothel|gangbang|incest|cuckold|bdsm|bondage|fetish|seductress|nude model|nude photo|sex worker|call girl|escort service)\b/i;
   return movies.filter((m) => {
     if (m.adult) return false;
     if (!m.poster_path) return false;
-    // Almost every sleaze title has a junk title with unicode hearts / "xxx"
-    const t = (m.title || "").toLowerCase();
-    if (/\b(xxx|erotic|softcore|sex tape|nymph|orgy|swinger)\b/.test(t)) return false;
+    if (badTitle.test(m.title || "")) return false;
+    if (badTitle.test(m.original_title || "")) return false;
+    if (badOverview.test(m.overview || "")) return false;
     return true;
   });
 }
@@ -67,26 +81,30 @@ export const trendingQO = (window: "day" | "week" = "week") =>
 export const popularMoviesQO = (page = 1) =>
   queryOptions({
     queryKey: ["tmdb", "popular_curated", page],
-    queryFn: () =>
-      get<PagedResult<Movie>>("discover/movie", {
+    queryFn: async () => {
+      const res = await get<PagedResult<Movie>>("discover/movie", {
         ...SAFE_DEFAULTS,
         sort_by: "popularity.desc",
         "vote_count.gte": 200,
         page,
-      }),
+      });
+      return { ...res, results: curateMovies(res.results) };
+    },
     staleTime: 5 * 60_000,
   });
 
 export const topRatedQO = (page = 1) =>
   queryOptions({
     queryKey: ["tmdb", "top_rated_curated", page],
-    queryFn: () =>
-      get<PagedResult<Movie>>("discover/movie", {
+    queryFn: async () => {
+      const res = await get<PagedResult<Movie>>("discover/movie", {
         ...SAFE_DEFAULTS,
         sort_by: "vote_average.desc",
         "vote_count.gte": 1500,
         page,
-      }),
+      });
+      return { ...res, results: curateMovies(res.results) };
+    },
     staleTime: 10 * 60_000,
   });
 
@@ -96,13 +114,14 @@ export const upcomingQO = (page = 1) =>
     queryFn: async () => {
       const today = new Date().toISOString().slice(0, 10);
       const later = new Date(Date.now() + 1000 * 60 * 60 * 24 * 120).toISOString().slice(0, 10);
-      return get<PagedResult<Movie>>("discover/movie", {
+      const res = await get<PagedResult<Movie>>("discover/movie", {
         ...SAFE_DEFAULTS,
         sort_by: "popularity.desc",
         "primary_release_date.gte": today,
         "primary_release_date.lte": later,
         page,
       });
+      return { ...res, results: curateMovies(res.results) };
     },
     staleTime: 10 * 60_000,
   });
@@ -111,14 +130,16 @@ export const upcomingQO = (page = 1) =>
 export const criterionStyleQO = (page = 1) =>
   queryOptions({
     queryKey: ["tmdb", "criterion_style", page],
-    queryFn: () =>
-      get<PagedResult<Movie>>("discover/movie", {
+    queryFn: async () => {
+      const res = await get<PagedResult<Movie>>("discover/movie", {
         ...SAFE_DEFAULTS,
         with_companies: CURATED_COMPANIES,
         sort_by: "popularity.desc",
         "vote_count.gte": 50,
         page,
-      }),
+      });
+      return { ...res, results: curateMovies(res.results) };
+    },
     staleTime: 30 * 60_000,
   });
 
@@ -126,14 +147,16 @@ export const criterionStyleQO = (page = 1) =>
 export const worldCinemaQO = (page = 1) =>
   queryOptions({
     queryKey: ["tmdb", "world_cinema", page],
-    queryFn: () =>
-      get<PagedResult<Movie>>("discover/movie", {
+    queryFn: async () => {
+      const res = await get<PagedResult<Movie>>("discover/movie", {
         ...SAFE_DEFAULTS,
         without_original_language: "en",
         sort_by: "vote_average.desc",
         "vote_count.gte": 500,
         page,
-      }),
+      });
+      return { ...res, results: curateMovies(res.results) };
+    },
     staleTime: 30 * 60_000,
   });
 
@@ -141,14 +164,16 @@ export const worldCinemaQO = (page = 1) =>
 export const classicsQO = (page = 1) =>
   queryOptions({
     queryKey: ["tmdb", "classics", page],
-    queryFn: () =>
-      get<PagedResult<Movie>>("discover/movie", {
+    queryFn: async () => {
+      const res = await get<PagedResult<Movie>>("discover/movie", {
         ...SAFE_DEFAULTS,
         sort_by: "vote_average.desc",
         "primary_release_date.lte": "1989-12-31",
         "vote_count.gte": 800,
         page,
-      }),
+      });
+      return { ...res, results: curateMovies(res.results) };
+    },
     staleTime: 30 * 60_000,
   });
 
@@ -247,8 +272,10 @@ export interface DiscoverFilters {
 export const discoverMoviesQO = (filters: DiscoverFilters) =>
   queryOptions({
     queryKey: ["tmdb", "discover", filters],
-    queryFn: () =>
-      get<PagedResult<Movie>>("discover/movie", { ...SAFE_DEFAULTS, ...filters }),
+    queryFn: async () => {
+      const res = await get<PagedResult<Movie>>("discover/movie", { ...SAFE_DEFAULTS, ...filters });
+      return { ...res, results: curateMovies(res.results) };
+    },
     staleTime: 5 * 60_000,
   });
 
