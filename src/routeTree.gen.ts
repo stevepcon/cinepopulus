@@ -9,38 +9,168 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WatchlistRouteImport } from './routes/watchlist'
+import { Route as StatsRouteImport } from './routes/stats'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as HiddenGemsRouteImport } from './routes/hidden-gems'
+import { Route as DiscoverRouteImport } from './routes/discover'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PersonIdRouteImport } from './routes/person.$id'
+import { Route as MovieIdRouteImport } from './routes/movie.$id'
 
+const WatchlistRoute = WatchlistRouteImport.update({
+  id: '/watchlist',
+  path: '/watchlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StatsRoute = StatsRouteImport.update({
+  id: '/stats',
+  path: '/stats',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HiddenGemsRoute = HiddenGemsRouteImport.update({
+  id: '/hidden-gems',
+  path: '/hidden-gems',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiscoverRoute = DiscoverRouteImport.update({
+  id: '/discover',
+  path: '/discover',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PersonIdRoute = PersonIdRouteImport.update({
+  id: '/person/$id',
+  path: '/person/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MovieIdRoute = MovieIdRouteImport.update({
+  id: '/movie/$id',
+  path: '/movie/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/discover': typeof DiscoverRoute
+  '/hidden-gems': typeof HiddenGemsRoute
+  '/search': typeof SearchRoute
+  '/stats': typeof StatsRoute
+  '/watchlist': typeof WatchlistRoute
+  '/movie/$id': typeof MovieIdRoute
+  '/person/$id': typeof PersonIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/discover': typeof DiscoverRoute
+  '/hidden-gems': typeof HiddenGemsRoute
+  '/search': typeof SearchRoute
+  '/stats': typeof StatsRoute
+  '/watchlist': typeof WatchlistRoute
+  '/movie/$id': typeof MovieIdRoute
+  '/person/$id': typeof PersonIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/discover': typeof DiscoverRoute
+  '/hidden-gems': typeof HiddenGemsRoute
+  '/search': typeof SearchRoute
+  '/stats': typeof StatsRoute
+  '/watchlist': typeof WatchlistRoute
+  '/movie/$id': typeof MovieIdRoute
+  '/person/$id': typeof PersonIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/discover'
+    | '/hidden-gems'
+    | '/search'
+    | '/stats'
+    | '/watchlist'
+    | '/movie/$id'
+    | '/person/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/discover'
+    | '/hidden-gems'
+    | '/search'
+    | '/stats'
+    | '/watchlist'
+    | '/movie/$id'
+    | '/person/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/discover'
+    | '/hidden-gems'
+    | '/search'
+    | '/stats'
+    | '/watchlist'
+    | '/movie/$id'
+    | '/person/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DiscoverRoute: typeof DiscoverRoute
+  HiddenGemsRoute: typeof HiddenGemsRoute
+  SearchRoute: typeof SearchRoute
+  StatsRoute: typeof StatsRoute
+  WatchlistRoute: typeof WatchlistRoute
+  MovieIdRoute: typeof MovieIdRoute
+  PersonIdRoute: typeof PersonIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/watchlist': {
+      id: '/watchlist'
+      path: '/watchlist'
+      fullPath: '/watchlist'
+      preLoaderRoute: typeof WatchlistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stats': {
+      id: '/stats'
+      path: '/stats'
+      fullPath: '/stats'
+      preLoaderRoute: typeof StatsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hidden-gems': {
+      id: '/hidden-gems'
+      path: '/hidden-gems'
+      fullPath: '/hidden-gems'
+      preLoaderRoute: typeof HiddenGemsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/discover': {
+      id: '/discover'
+      path: '/discover'
+      fullPath: '/discover'
+      preLoaderRoute: typeof DiscoverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,12 +178,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/person/$id': {
+      id: '/person/$id'
+      path: '/person/$id'
+      fullPath: '/person/$id'
+      preLoaderRoute: typeof PersonIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/movie/$id': {
+      id: '/movie/$id'
+      path: '/movie/$id'
+      fullPath: '/movie/$id'
+      preLoaderRoute: typeof MovieIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DiscoverRoute: DiscoverRoute,
+  HiddenGemsRoute: HiddenGemsRoute,
+  SearchRoute: SearchRoute,
+  StatsRoute: StatsRoute,
+  WatchlistRoute: WatchlistRoute,
+  MovieIdRoute: MovieIdRoute,
+  PersonIdRoute: PersonIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
