@@ -55,13 +55,14 @@ const SAFE_DEFAULTS = {
 // (trending, recommendations, etc.). Drops obvious low-quality / sleaze items.
 export function curateMovies<T extends Movie>(movies: T[] | undefined): T[] {
   if (!movies) return [];
-  const bad = /\b(xxx|porn|porno|pornography|erotic|erotica|eroticism|softcore|hardcore|sex|sexy|sexual|sensual|seduction|seduce|seductress|nude|nudity|naked|nympho|nymph|orgy|orgies|swinger|swingers|kinky|kink|bdsm|bondage|fetish|lust|lusty|lascivious|raunchy|sleaze|sleazy|sexploitation|pinku|strip(per|tease|club)?|hooker|hookers|escort|escorts|call girl|brothel|harem|playboy|playmate|centerfold|cam ?girl|onlyfans|threesome|foursome|gangbang|incest|taboo|cuckold|milf|virgin|virgins|deflower|deflowered|nun(s|sploitation)?|prison girls|women in prison|cabaret)\b/i;
+  const badTitle = /\b(xxx|porn|porno|pornography|erotic|erotica|eroticism|softcore|hardcore|sexy|sensual|seduction|seductress|nude|nudity|naked|nympho|nymph|orgy|orgies|swinger|swingers|kinky|bdsm|bondage|fetish|lust|lusty|lascivious|raunchy|sleaze|sleazy|sexploitation|pinku|stripper|striptease|hooker|hookers|brothel|harem|playboy|playmate|centerfold|camgirl|cam girl|onlyfans|threesome|foursome|gangbang|incest|cuckold|milf|nymphomaniac|cabaret girls|emmanuelle|caligula)\b/i;
+  const badOverview = /\b(softcore|hardcore porn|pornograph|erotic|erotica|nymphomaniac|orgy|orgies|sexploitation|striptease|brothel|gangbang|incest|cuckold|bdsm|bondage|fetish|seductress|nude model|nude photo|sex worker|call girl|escort service)\b/i;
   return movies.filter((m) => {
     if (m.adult) return false;
     if (!m.poster_path) return false;
-    if (bad.test(m.title || "")) return false;
-    if (bad.test(m.original_title || "")) return false;
-    if (bad.test(m.overview || "")) return false;
+    if (badTitle.test(m.title || "")) return false;
+    if (badTitle.test(m.original_title || "")) return false;
+    if (badOverview.test(m.overview || "")) return false;
     return true;
   });
 }
