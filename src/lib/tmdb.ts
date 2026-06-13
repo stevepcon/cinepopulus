@@ -14,10 +14,22 @@ const get = <T>(path: string, params?: Record<string, string | number | boolean>
 // ---------------------------------------------------------------------------
 
 // TMDB keyword IDs we never want to surface.
-// erotic movie / softcore / rape / sexploitation / sexual violence / sexual abuse
-// / erotica / nudity (as primary theme) / sex tape / pornography
+// Adult / sexual / exploitation content:
+// sex (2626), softcore (10115), erotic movie (190370), erotica (13059),
+// pornography (6149), sex scene (170362), sexual content (287501),
+// nudity (1228), female nudity (11322), male nudity (264386),
+// full frontal nudity (234213), explicit sex (4344),
+// rape (9748), sexual violence (165270), sexual abuse (263591),
+// sexploitation (233211), sex tape (161645), prostitute (1326),
+// strip club (10773), striptease (10774), brothel (12377), orgy (15093),
+// incest (15136), pinku eiga (10054), nunsploitation (170587),
+// women in prison (13141), bdsm (208579), kink (245840)
 const EXCLUDED_KEYWORDS = [
-  190370, 10115, 9748, 233211, 165270, 263591, 13059, 2626, 161645, 6149,
+  2626, 10115, 190370, 13059, 6149, 170362, 287501,
+  1228, 11322, 264386, 234213, 4344,
+  9748, 165270, 263591, 233211, 161645, 1326,
+  10773, 10774, 12377, 15093, 15136,
+  10054, 170587, 13141, 208579, 245840,
 ].join("|");
 
 // Distributors / labels that anchor the Criterion-Channel sensibility:
