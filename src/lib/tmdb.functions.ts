@@ -32,5 +32,6 @@ export const tmdbFetch = createServerFn({ method: "GET" })
       const text = await res.text().catch(() => "");
       throw new Error(`TMDB ${res.status}: ${text.slice(0, 200)}`);
     }
-    return (await res.json()) as unknown;
+    const json = (await res.json()) as Record<string, unknown>;
+    return json;
   });
