@@ -6,7 +6,7 @@ import type {
 } from "./tmdb-types";
 
 const get = <T>(path: string, params?: Record<string, string | number | boolean>) =>
-  tmdbFetch({ data: { path, params } }) as Promise<T>;
+  tmdbFetch({ data: { path, params } }) as unknown as Promise<T>;
 
 // ---- Movies ----
 export const trendingQO = (window: "day" | "week" = "day") =>
