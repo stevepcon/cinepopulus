@@ -55,12 +55,13 @@ const SAFE_DEFAULTS = {
 // (trending, recommendations, etc.). Drops obvious low-quality / sleaze items.
 export function curateMovies<T extends Movie>(movies: T[] | undefined): T[] {
   if (!movies) return [];
+  const bad = /\b(xxx|porn|porno|pornography|erotic|erotica|eroticism|softcore|hardcore|sex|sexy|sexual|sensual|seduction|seduce|seductress|nude|nudity|naked|nympho|nymph|orgy|orgies|swinger|swingers|kinky|kink|bdsm|bondage|fetish|lust|lusty|lascivious|raunchy|sleaze|sleazy|sexploitation|pinku|strip(per|tease|club)?|hooker|hookers|escort|escorts|call girl|brothel|harem|playboy|playmate|centerfold|cam ?girl|onlyfans|threesome|foursome|gangbang|incest|taboo|cuckold|milf|virgin|virgins|deflower|deflowered|nun(s|sploitation)?|prison girls|women in prison|cabaret)\b/i;
   return movies.filter((m) => {
     if (m.adult) return false;
     if (!m.poster_path) return false;
-    // Almost every sleaze title has a junk title with unicode hearts / "xxx"
-    const t = (m.title || "").toLowerCase();
-    if (/\b(xxx|erotic|softcore|sex tape|nymph|orgy|swinger)\b/.test(t)) return false;
+    if (bad.test(m.title || "")) return false;
+    if (bad.test(m.original_title || "")) return false;
+    if (bad.test(m.overview || "")) return false;
     return true;
   });
 }
