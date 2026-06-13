@@ -272,8 +272,10 @@ export interface DiscoverFilters {
 export const discoverMoviesQO = (filters: DiscoverFilters) =>
   queryOptions({
     queryKey: ["tmdb", "discover", filters],
-    queryFn: () =>
-      get<PagedResult<Movie>>("discover/movie", { ...SAFE_DEFAULTS, ...filters }),
+    queryFn: async () => {
+      const res = await get<PagedResult<Movie>>("discover/movie", { ...SAFE_DEFAULTS, ...filters });
+      return { ...res, results: curateMovies(res.results) };
+    },
     staleTime: 5 * 60_000,
   });
 
