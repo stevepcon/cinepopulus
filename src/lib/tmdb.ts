@@ -81,26 +81,30 @@ export const trendingQO = (window: "day" | "week" = "week") =>
 export const popularMoviesQO = (page = 1) =>
   queryOptions({
     queryKey: ["tmdb", "popular_curated", page],
-    queryFn: () =>
-      get<PagedResult<Movie>>("discover/movie", {
+    queryFn: async () => {
+      const res = await get<PagedResult<Movie>>("discover/movie", {
         ...SAFE_DEFAULTS,
         sort_by: "popularity.desc",
         "vote_count.gte": 200,
         page,
-      }),
+      });
+      return { ...res, results: curateMovies(res.results) };
+    },
     staleTime: 5 * 60_000,
   });
 
 export const topRatedQO = (page = 1) =>
   queryOptions({
     queryKey: ["tmdb", "top_rated_curated", page],
-    queryFn: () =>
-      get<PagedResult<Movie>>("discover/movie", {
+    queryFn: async () => {
+      const res = await get<PagedResult<Movie>>("discover/movie", {
         ...SAFE_DEFAULTS,
         sort_by: "vote_average.desc",
         "vote_count.gte": 1500,
         page,
-      }),
+      });
+      return { ...res, results: curateMovies(res.results) };
+    },
     staleTime: 10 * 60_000,
   });
 
@@ -110,13 +114,14 @@ export const upcomingQO = (page = 1) =>
     queryFn: async () => {
       const today = new Date().toISOString().slice(0, 10);
       const later = new Date(Date.now() + 1000 * 60 * 60 * 24 * 120).toISOString().slice(0, 10);
-      return get<PagedResult<Movie>>("discover/movie", {
+      const res = await get<PagedResult<Movie>>("discover/movie", {
         ...SAFE_DEFAULTS,
         sort_by: "popularity.desc",
         "primary_release_date.gte": today,
         "primary_release_date.lte": later,
         page,
       });
+      return { ...res, results: curateMovies(res.results) };
     },
     staleTime: 10 * 60_000,
   });
@@ -125,14 +130,16 @@ export const upcomingQO = (page = 1) =>
 export const criterionStyleQO = (page = 1) =>
   queryOptions({
     queryKey: ["tmdb", "criterion_style", page],
-    queryFn: () =>
-      get<PagedResult<Movie>>("discover/movie", {
+    queryFn: async () => {
+      const res = await get<PagedResult<Movie>>("discover/movie", {
         ...SAFE_DEFAULTS,
         with_companies: CURATED_COMPANIES,
         sort_by: "popularity.desc",
         "vote_count.gte": 50,
         page,
-      }),
+      });
+      return { ...res, results: curateMovies(res.results) };
+    },
     staleTime: 30 * 60_000,
   });
 
@@ -140,14 +147,16 @@ export const criterionStyleQO = (page = 1) =>
 export const worldCinemaQO = (page = 1) =>
   queryOptions({
     queryKey: ["tmdb", "world_cinema", page],
-    queryFn: () =>
-      get<PagedResult<Movie>>("discover/movie", {
+    queryFn: async () => {
+      const res = await get<PagedResult<Movie>>("discover/movie", {
         ...SAFE_DEFAULTS,
         without_original_language: "en",
         sort_by: "vote_average.desc",
         "vote_count.gte": 500,
         page,
-      }),
+      });
+      return { ...res, results: curateMovies(res.results) };
+    },
     staleTime: 30 * 60_000,
   });
 
@@ -155,14 +164,16 @@ export const worldCinemaQO = (page = 1) =>
 export const classicsQO = (page = 1) =>
   queryOptions({
     queryKey: ["tmdb", "classics", page],
-    queryFn: () =>
-      get<PagedResult<Movie>>("discover/movie", {
+    queryFn: async () => {
+      const res = await get<PagedResult<Movie>>("discover/movie", {
         ...SAFE_DEFAULTS,
         sort_by: "vote_average.desc",
         "primary_release_date.lte": "1989-12-31",
         "vote_count.gte": 800,
         page,
-      }),
+      });
+      return { ...res, results: curateMovies(res.results) };
+    },
     staleTime: 30 * 60_000,
   });
 
