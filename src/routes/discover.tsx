@@ -51,7 +51,7 @@ function DiscoverPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
       <h1 className="text-3xl font-bold tracking-tight">Discover</h1>
-      <p className="mt-1 text-sm text-muted-foreground">Filter the entire TMDB catalogue to find your next favorite.</p>
+      <p className="mt-1 text-sm text-muted-foreground">Filter the entire catalogue to find your next favourite movie.</p>
 
       <div className="mt-6 grid gap-4 rounded-2xl border border-border bg-card p-5 sm:grid-cols-2 lg:grid-cols-4">
         <Select label="Genre" value={genre} onChange={setGenre}>
