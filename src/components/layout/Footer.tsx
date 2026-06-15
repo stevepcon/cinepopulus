@@ -13,10 +13,18 @@ export function Footer() {
             <span className="text-lg font-bold tracking-tight">Cinephile</span>
           </div>
           <p className="mt-3 max-w-md text-sm text-muted-foreground">
-            Discover trending movies, hidden gems and deep insights — powered by The Movie Database.
+            Discover trending movies, hidden gems and deep insights. Powered by The Movie Database API.
           </p>
           <p className="mt-4 text-xs text-muted-foreground">
-            This product uses the TMDB API but is not endorsed or certified by TMDB.
+            Built by{" "}
+            <a
+              className="underline hover:text-foreground"
+              href="https://www.linkedin.com/in/steven-conway/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Steven Conway
+            </a>
           </p>
         </div>
         <div>
