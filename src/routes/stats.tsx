@@ -6,7 +6,7 @@ import type { MovieDetails } from "@/lib/tmdb-types";
 import { img } from "@/lib/tmdb-types";
 
 export const Route = createFileRoute("/stats")({
-  head: () => ({ meta: [{ title: "Statistics — Cinephile" }] }),
+  head: () => ({ meta: [{ title: "Statistics — Cinepopulus" }] }),
   component: StatsPage,
 });
 

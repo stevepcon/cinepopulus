@@ -12,7 +12,7 @@ const searchSchema = z.object({ q: fallback(z.string(), "").default("") });
 
 export const Route = createFileRoute("/search")({
   validateSearch: zodValidator(searchSchema),
-  head: () => ({ meta: [{ title: "Search — Cinephile" }] }),
+  head: () => ({ meta: [{ title: "Search — Cinepopulus" }] }),
   component: SearchPage,
 });
 

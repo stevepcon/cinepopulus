@@ -67,10 +67,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Cinephile — Discover Movies, Actors & Hidden Gems" },
+      { title: "Cinepopulus — Discover Movies, Actors & Hidden Gems" },
       { name: "description", content: "A premium movie discovery experience powered by TMDB. Search, explore, and curate your watchlist." },
       { name: "theme-color", content: "#0a0a0f" },
-      { property: "og:title", content: "Cinephile — Movie Discovery" },
+      { property: "og:title", content: "Cinepopulus — Movie Discovery" },
       { property: "og:description", content: "Discover trending movies, actors, hidden gems and statistics powered by TMDB." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
