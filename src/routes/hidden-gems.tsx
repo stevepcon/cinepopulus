@@ -17,7 +17,9 @@ function HiddenGems() {
       "vote_average.gte": 7.5,
       "vote_count.gte": 100,
       "vote_count.lte": 5000,
+      "primary_release_date.lte": "2011-12-31",
     }),
+
   );
 
   return (
@@ -29,8 +31,9 @@ function HiddenGems() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Hidden Gems</h1>
           <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-            Highly rated movies most people haven't seen yet — rated 7.5+ with between 100 and 5,000 votes.
+            Highly rated movies most people haven't seen yet — released before 2012, rated 7.5+ with between 100 and 5,000 votes.
           </p>
+
         </div>
       </div>
 

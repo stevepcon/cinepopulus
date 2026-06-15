@@ -268,6 +268,9 @@ export interface DiscoverFilters {
   page?: number;
   "vote_count.gte"?: number;
   "vote_count.lte"?: number;
+  "primary_release_date.gte"?: string;
+  "primary_release_date.lte"?: string;
+
 }
 export const discoverMoviesQO = (filters: DiscoverFilters) =>
   queryOptions({
