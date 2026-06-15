@@ -109,17 +109,17 @@ function StatsPage() {
   const directorCredits = useQueries({
     queries: FAMOUS_DIRECTORS.map((id) => personMovieCreditsQO(id)),
   });
-  const debutFilms = FAMOUS_DIRECTORS.map((_id, i) => {
+  const debutFilms = FAMOUS_DIRECTORS.flatMap((_id, i) => {
     const person = directorPeople[i].data;
     const credits = directorCredits[i].data;
-    if (!person || !credits) return null;
+    if (!person || !credits) return [];
     const directed = credits.crew
       .filter((c) => c.job === "Director" && c.release_date)
       .sort((a, b) => a.release_date.localeCompare(b.release_date));
     const first = directed[0];
-    if (!first) return null;
-    return { person, first };
-  }).filter((x): x is { person: NonNullable<typeof directorPeople[number]["data"]>; first: NonNullable<ReturnType<typeof directorCredits[number]["data"] & object>["crew"][number]> } => !!x);
+    if (!first) return [];
+    return [{ person, first }];
+  });
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
