@@ -17,7 +17,9 @@ function HiddenGems() {
       "vote_average.gte": 7.5,
       "vote_count.gte": 100,
       "vote_count.lte": 5000,
+      "primary_release_date.lte": "2011-12-31",
     }),
+
   );
 
   return (
