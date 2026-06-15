@@ -31,7 +31,7 @@ function HiddenGems() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Hidden Gems</h1>
           <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-            Highly rated movies most people haven't seen yet — released before 2012, rated 7.5+ with between 100 and 5,000 votes.
+            Highly rated movies you probably haven't seen yet.
           </p>
 
         </div>
