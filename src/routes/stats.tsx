@@ -6,7 +6,7 @@ import type { MovieDetails } from "@/lib/tmdb-types";
 import { img } from "@/lib/tmdb-types";
 
 export const Route = createFileRoute("/stats")({
-  head: () => ({ meta: [{ title: "Statistics — Cinepopulus" }] }),
+  head: () => ({ meta: [{ title: "Trivia — Cinepopulus" }] }),
   component: StatsPage,
 });
 
@@ -42,8 +42,8 @@ function StatsPage() {
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-      <h1 className="text-3xl font-bold tracking-tight">Statistics</h1>
-      <p className="mt-1 text-sm text-muted-foreground">Live insights from the TMDB catalogue.</p>
+      <h1 className="text-3xl font-bold tracking-tight">Trivia</h1>
+      <p className="mt-1 text-sm text-muted-foreground">Stuff you did not know about movies.</p>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
         <StatsCard title="Highest Grossing Movies">
