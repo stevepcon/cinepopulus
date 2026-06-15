@@ -22,7 +22,7 @@ export function Navbar() {
           <span className="grid h-9 w-9 place-items-center rounded-lg bg-primary text-primary-foreground">
             <Film className="h-5 w-5" />
           </span>
-          <span className="hidden text-lg font-bold tracking-tight sm:inline">Cinephile</span>
+          <span className="hidden text-lg font-bold tracking-tight sm:inline">Cinepopulus</span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">

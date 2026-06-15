@@ -6,7 +6,7 @@ import { MovieGrid } from "@/components/MovieGrid";
 import { GridSkeleton } from "@/components/Skeletons";
 
 export const Route = createFileRoute("/discover")({
-  head: () => ({ meta: [{ title: "Discover — Cinephile" }] }),
+  head: () => ({ meta: [{ title: "Discover — Cinepopulus" }] }),
   component: DiscoverPage,
 });
 

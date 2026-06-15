@@ -16,7 +16,7 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Cinephile — Discover Movies" },
+      { title: "Cinepopulus — Discover Movies" },
       { name: "description", content: "A curated, Criterion-inspired window into world cinema, indie auteurs, and timeless classics." },
     ],
   }),

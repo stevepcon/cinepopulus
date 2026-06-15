@@ -6,7 +6,7 @@ import { GridSkeleton } from "@/components/Skeletons";
 import { Sparkles } from "lucide-react";
 
 export const Route = createFileRoute("/hidden-gems")({
-  head: () => ({ meta: [{ title: "Hidden Gems — Cinephile" }] }),
+  head: () => ({ meta: [{ title: "Hidden Gems — Cinepopulus" }] }),
   component: HiddenGems,
 });
 

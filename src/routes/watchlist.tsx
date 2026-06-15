@@ -6,7 +6,7 @@ import { img } from "@/lib/tmdb-types";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/watchlist")({
-  head: () => ({ meta: [{ title: "My Watchlist — Cinephile" }] }),
+  head: () => ({ meta: [{ title: "My Watchlist — Cinepopulus" }] }),
   component: WatchlistPage,
 });
 

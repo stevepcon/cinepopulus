@@ -10,7 +10,7 @@ export function Footer() {
             <span className="grid h-8 w-8 place-items-center rounded-md bg-primary text-primary-foreground">
               <Film className="h-4 w-4" />
             </span>
-            <span className="text-lg font-bold tracking-tight">Cinephile</span>
+            <span className="text-lg font-bold tracking-tight">Cinepopulus</span>
           </div>
           <p className="mt-3 max-w-md text-sm text-muted-foreground">
             Discover trending movies, hidden gems and deep insights. Powered by The Movie Database API.
@@ -45,7 +45,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-border/60 py-5 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} Cinephile. Data provided by{" "}
+        © {new Date().getFullYear()} Cinepopulus. Data provided by{" "}
         <a className="underline hover:text-foreground" href="https://www.themoviedb.org/" target="_blank" rel="noreferrer">TMDB</a>.
       </div>
     </footer>
